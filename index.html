@@ -21,48 +21,52 @@
 	}
 
 	nav {
+		background-color: white;
 		width: 339px;
 		padding: 5px;
 		border: 1px solid black;
 	}
 
-	/*
+	
 	scroll-container {
 		display: block;
 		width: 350px;
-		height: 200px;
+		height: 600px;
 		overflow-y: scroll;
 		scroll-behavior: smooth;
-		}*/
+	}
 
 
-		scroll-page {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			height: 100%;
-			font-size: 5em;
-		}
+	scroll-page {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		font-size: 5em;
+	}
 
 
-		div{
-			height: 100vh;
-		}
+	div{
+		height: 100vh;
+		display: flex;
+		align-items: center
+	}
 
 
-		#overflow-scroll {
-			overflow:scroll;
-			height:300px;
-			background:#aaa;
-		}
+	#overflow-scroll {
+		overflow:scroll;
+		height:300px;
+		background:#aaa;
+	}
 
-		#context-example {
-			background:#555;
-			color:#fff;
-			height:600px;
-			margin-top:150px;
-		}
-	</style>
+	#context-example {
+		background:#555;
+		color:#fff;
+		height:600px;
+		margin-top:150px;
+	}
+
+</style>
 </head>
 
 <body>
@@ -70,63 +74,99 @@
 
 
 	<nav>
-		<a href="#page-1">1</a>
-		<a href="#page-2">2</a>
-		<a href="#page-3">3</a>
+		<a class="itemsNav" href="#page-1" data-id="1">1</a>
+		<a class="itemsNav" href="#page-2" data-id="2">2</a>
+		<a class="itemsNav" href="#page-3" data-id="3">3</a>
+		<a class="itemsNav" href="#page-4" data-id="4">4</a>
+		<a class="itemsNav" href="#page-5" data-id="5">5</a>
+		<a class="itemsNav" href="#page-6" data-id="6">6</a>
 	</nav>
-	<section id="scroll">
-		<div id="page-1">1</div>
-		<div id="page-2">2</div>
-		<div id="page-3">3</div>
+	
+	<scroll-container id="scroll">
+		<div id="page-1" class="page" data-id="1" style="background-color: yellow;">
+			<h1>1</h1>
+		</div>
+		<div id="page-2" class="page" data-id="2" style="background-color: red;">
+			<h1>2</h1>
+		</div>
+		<div id="page-3" class="page" data-id="3" style="background-color: blue;">
+			<h1>3</h1>
+		</div>
+		<div id="page-4" class="page" data-id="4" style="background-color: green;">
+			<h1>4</h1>
+		</div>
+		<div id="page-5" class="page" data-id="5" style="background-color: orange">
+			<h1>5</h1>
+		</div>
+		<div id="page-6" class="page" data-id="6" style="background-color: pink;">
+			<h1>6</h1>
+		</div>
+	</scroll-container>
 
-		<div class="page">1</div>
-		<div class="page">2</div>
-		<div class="page">3</div>
-	</section>
-
-
+<!-- 
 	<div id="overflow-scroll">
 		<div id="context-example">I am a waypoint with a custom context, the "#overflow-scroll" div.</div>
 	</div>
-	
+-->
 
 
-	<script>
-		const page1 = document.getElementById('page-1');
-		const page2 = document.getElementById('page-2');
-		const page3 = document.getElementById('page-3');
-		const scroll = document.getElementById('scroll');
-
-		var waypoint = new Waypoint({
-			element: page2,
-			handler: function(direction) {
-				console.log(direction);
-				console.log(this.element.id);
-			},
-		})
+<script>
+	const page1 = document.getElementById('page-1');
+	const page2 = document.getElementById('page-2');
+	const page3 = document.getElementById('page-3');
+	const scroll = document.getElementById('scroll');
+	const boton = document.getElementById('boton');
 
 
 
 		/*Con contexto*/
-		var waypoint1 = new Waypoint({
-			element: document.getElementById('context-example'),
-			handler: function() {
-				alert('Context example triggered')
-			},
-			context: document.getElementById('overflow-scroll')
-		})
+		// var waypoint1 = new Waypoint({
+		// 	element: document.getElementById('context-example'),
+		// 	handler: function() {
+		// 		alert('Context example triggered')
+		// 	},
+		// 	context: document.getElementById('overflow-scroll')
+		// })
 
 		/*Recorriendo*/
 		pages = document.getElementsByClassName('page');
+		itemsNav = document.querySelectorAll('.itemsNav');
 		console.log(pages);
 		for (var i = 0; i < pages.length; i++) {
 			new Waypoint({
 				element: pages[i],
 				handler: function() {
-					console.log(this.element.innerHTML + ' hit')
-				}
+					console.log(this.element.innerHTML + ' hit');
+					console.log(this.element.id+' contiene color: '+this.element.style.backgroundColor);
+
+					for (var i = 0; i < itemsNav.length; i++) {
+						if(itemsNav[i].dataset.id == this.element.dataset.id){
+							itemsNav[i].style.backgroundColor = 'black';
+							itemsNav[i].style.color = 'white';
+						}else{
+							itemsNav[i].style.backgroundColor = '';
+							itemsNav[i].style.color = 'black';
+						}
+					}
+
+				},
+				context: document.getElementById('scroll'),
 			})
 		}
+
+		/*Revisar la opcion 
+			offset:  'bottom-in-view'
+			*/
+
+		/*
+			detecta cuando el elemento choca con la parte superior
+
+			offset: function(){
+			return -this.element.clientHeight
+		}
+		*/
+
+		/*Con offset se activa mas tarde el punto de quiebre*/
 	</script>
 </body>
 
