@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/waypoints/4.0.1/noframework.waypoints.js" integrity="sha512-Q4MHJkk3u8P63v1aX0I7jvo5AoMFi53HbxUBhURp8x7xrqD+nsHZrbBEQVObpqE+MAAVB/Ye9ZlKkM44a1q9WA==" crossorigin="anonymous"></script>
+	<title>Waiypoint</title>
+</head>
+<style>
+	a {
+		display: inline-block;
+		width: 50px;
+		text-decoration: none;
+	}
+
+	nav,
+	scroll-container {
+		display: block;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	nav {
+		width: 339px;
+		padding: 5px;
+		border: 1px solid black;
+	}
+
+	/*
+	scroll-container {
+		display: block;
+		width: 350px;
+		height: 200px;
+		overflow-y: scroll;
+		scroll-behavior: smooth;
+		}*/
+
+
+		scroll-page {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 100%;
+			font-size: 5em;
+		}
+
+
+		div{
+			height: 100vh;
+		}
+
+
+		#overflow-scroll {
+			overflow:scroll;
+			height:300px;
+			background:#aaa;
+		}
+
+		#context-example {
+			background:#555;
+			color:#fff;
+			height:600px;
+			margin-top:150px;
+		}
+	</style>
+</head>
+
+<body>
+
+
+
+	<nav>
+		<a href="#page-1">1</a>
+		<a href="#page-2">2</a>
+		<a href="#page-3">3</a>
+	</nav>
+	<section id="scroll">
+		<div id="page-1">1</div>
+		<div id="page-2">2</div>
+		<div id="page-3">3</div>
+
+		<div class="page">1</div>
+		<div class="page">2</div>
+		<div class="page">3</div>
+	</section>
+
+
+	<div id="overflow-scroll">
+		<div id="context-example">I am a waypoint with a custom context, the "#overflow-scroll" div.</div>
+	</div>
+	
+
+
+	<script>
+		const page1 = document.getElementById('page-1');
+		const page2 = document.getElementById('page-2');
+		const page3 = document.getElementById('page-3');
+		const scroll = document.getElementById('scroll');
+
+		var waypoint = new Waypoint({
+			element: page2,
+			handler: function(direction) {
+				console.log(direction);
+				console.log(this.element.id);
+			},
+		})
+
+
+
+		/*Con contexto*/
+		var waypoint1 = new Waypoint({
+			element: document.getElementById('context-example'),
+			handler: function() {
+				alert('Context example triggered')
+			},
+			context: document.getElementById('overflow-scroll')
+		})
+
+		/*Recorriendo*/
+		pages = document.getElementsByClassName('page');
+		console.log(pages);
+		for (var i = 0; i < pages.length; i++) {
+			new Waypoint({
+				element: pages[i],
+				handler: function() {
+					console.log(this.element.innerHTML + ' hit')
+				}
+			})
+		}
+	</script>
+</body>
+
+
+
+</html>
